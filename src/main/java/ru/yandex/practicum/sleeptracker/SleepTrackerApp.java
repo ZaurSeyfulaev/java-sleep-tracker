@@ -7,7 +7,7 @@ public class SleepTrackerApp {
 
     public static void main(String[] args) {
 
-        String path="";
+        String path = "";
         if (args.length == 0) {
             System.out.println("Пожалуйста укажите пусть к файлу");
             System.exit(0); // Идея подсказала
