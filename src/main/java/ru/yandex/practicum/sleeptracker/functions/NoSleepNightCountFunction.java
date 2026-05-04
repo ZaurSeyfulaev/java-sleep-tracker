@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 public class NoSleepNightCountFunction implements SleepAnalysisFunction {
 
@@ -16,10 +17,12 @@ public class NoSleepNightCountFunction implements SleepAnalysisFunction {
 
         LocalDateTime firstStart = sessions.stream()
                 .map(SleepSession::getStartTime)
+                .filter(Objects::nonNull)
                 .min(LocalDateTime::compareTo)
                 .orElseThrow();
         LocalDateTime lastEnd = sessions.stream()
                 .map(SleepSession::getEndTime)
+                .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .orElseThrow();
 
@@ -43,7 +46,9 @@ public class NoSleepNightCountFunction implements SleepAnalysisFunction {
             LocalDateTime nightStart = current.atStartOfDay();
             LocalDateTime nightEnd = current.atTime(6, 0);
 
-            boolean isCovered = sessions.stream().anyMatch(session ->
+            boolean isCovered = sessions.stream()
+                    .filter(Objects::nonNull)
+                    .anyMatch(session ->
                     session.getStartTime().isBefore(nightEnd) &&
                             session.getEndTime().isAfter(nightStart)
             );

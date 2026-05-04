@@ -18,11 +18,13 @@ public class SleepChronotypeFunction implements SleepAnalysisFunction {
 
         LocalDateTime firstStart = sessions.stream()
                 .map(SleepSession::getStartTime)
+                .filter(Objects::nonNull)
                 .min(LocalDateTime::compareTo)
                 .get();
 
         LocalDateTime lastEnd = sessions.stream()
                 .map(SleepSession::getEndTime)
+                .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .get();
 

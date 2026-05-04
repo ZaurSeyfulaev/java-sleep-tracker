@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SleepSession {
@@ -27,6 +28,7 @@ public class SleepSession {
     public List<SleepSession> parseSleepingSession(String filePath) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
             return bufferedReader.lines().toList().stream()
+                    .filter(Objects::nonNull)
                     .map(line -> line.split(";"))
                     .filter(line -> line.length == 3)
                     .map(session -> {
