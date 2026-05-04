@@ -1,19 +1,24 @@
 package ru.yandex.practicum.sleeptracker;
 import ru.yandex.practicum.sleeptracker.functions.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class SleepTrackerApp {
 
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Укажите путь к файлу и его название \n");
-        // Не понял последнего замечания. Ниже прошу пользователя ввести путь
-        String path = scanner.nextLine();
+    public static void main(String[] args) {
+
+        String path="";
+        if (args.length == 0) {
+            System.out.println("Пожалуйста укажите пусть к файлу");
+            System.exit(0); // Идея подсказала
+        } else if (args.length > 1) {
+            System.out.println("Нельзя указать более 1 пути к файлу");
+            System.exit(0);
+        } else {
+             path = args[0];
+        }
+
         SleepSession sleepSession = new SleepSession();
-        // Здесь введенный путь передаю как переменную в метод для парсинга
         List<SleepSession> sleepSessions = sleepSession.parseSleepingSession(path);
         List<SleepAnalysisFunction> sleepAnalysisFunctions = List.of(
                 new AverageSleepSessionFunction(),
@@ -31,5 +36,4 @@ public class SleepTrackerApp {
                 .toList();
         sleepAnalysisResults.forEach(SleepAnalysisResult::print);
     }
-
 }
